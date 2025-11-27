@@ -110,6 +110,89 @@ let objectArray = [ // 객체의 배열
 ]
 ```
 
+### 2. Reactivity - 반응형 구문 (`$:`)
+Svelte에서는 `$:` 기호를 이용해서 리액티비티적인 기능들을 쉽게 구현할 수 있다.  
+
+#### 코드분석
+```svelte
+<script>
+let count = 0
+$: doubled = count * 2
+$: if(count >= 10) {
+  alert('카운트가 10을 넘었습니다. ')
+  count = 9
+}
+
+$: {
+  console.log( count )
+  console.log( doubled )
+}
+
+function handleClick() {
+  // 이벤트 코드
+  count += 1
+}
+</script>
+<button on:click={handleClick}>
+  클릭수 {count} {count === 1 ? 'time' : 'times'}
+</button>
+<p>{count} 두배는 {doubled}</p>
+```
+
+일반적인 상태값이 let으로 선언되는것과 달리 doubled 변수는 반응성 기호로 선언되었다.  
+`$: doubled = count * 2`  
+따러서 doubled는 count가 변경될 때마다 1을 갑지하고 해당 count에 2를 곱한 값으로 설정된다.  
+
+반응성 기호는 변수뿐만 아니라 중괄호 블록으로 감싸 특정 영역에 영향을 줄 수도 있다.  
+```svelte
+<script>
+$: {
+  console.log( count )
+  console.log( doubled )
+}
+</script>
+```
+예제에서 위 코드는 반응성 기호 안에 console.log() 들은 count와 doubled가 변경이 되면 로그를 출력하게 된다.  
+
+심지어 if조건문과 사용해도 된다.  
+```js
+<script>
+$: if(count >= 10) {
+  alert('카운트가 10을 넘었습니다. ')
+  count = 9
+}
+</script>
+```
+예제에서 위 코드는 count가 10보다 같거나 클 경우 alert을 출력하고 count값을 9로 변경한다.  
+
+이렇게 반응성 기호를 이용하면 일반적인 프로그램에서의 호출과 달리 선언만 하면 그에 맞는 환경에 따라 작동한다.  
+마치 화재경보기가 열을 감지하면 스프링쿨러가 물을 발사하는 것과 비슷한 작용이다.  
+또한 마크업영역의 경우 기본적으로 상태값과 연계되어 상태값의 변화에 따라 dom이나 내용들이 보여지게 된다.  
+
+예제의 경우 count와 doubled는 변경이 되면 해당 변경된 값이 표현되고 count의 경우 1과 같을때 time이 그 외의 값에는 times가 표시되게 된다.  
+
+이처럼 반응성 기호로 변수나 영역을 만들고 선언을 하면 대상이 되는 상태값의 변화를 자동으로 감지해서 필요한 행동을 할 수 있도록 만들 수 있다.  
+따라서 반응성 기호를 잘 활용하면 복잡한 기능의 연계를 쉽게 구현할 수 있다.  
+
+주의할점은 let으로 선언한 기본 state 의존 변수를 코드에 꼭 포함시켜야 한다는 점이다.  
+```svelte
+<script>
+let count = 0
+$: doubled += 'abc'
+
+$: {
+  console.log("메롱");
+  console.log(doubled);
+}
+</script>
+```
+만약 위와같이 reactive 변수에 의존변수를 포함시키지 않는다면, doubled는 dom 이 렌더링 될때 최초 1회만 초기화되고, {} 실행블록도 최초 1회만 실행된다.  
+즉, 변경을 감지하지 못하는것이다.  
+이 말은 `$:` 코드 내에 포함되고 있는 모든 반응형 의존변수를 감시하고, 해당 의존변수의 상태 변경이 감지될 경우 현재의 상태를 유지한 채 재실행 된다.
+
+
+현실세계로 비교하자면 일반적인 프로그램 방식을 물을 수동으로 틀었다 잠그는 샤워기와 비슷하다면 선언형 방식의 경우는 불이 나면 자동으로 물을 뿌려주는 화재경보기와 비슷하다고 할 수 있을 것이다.  
+
 </details>
 <br>
 
