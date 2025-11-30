@@ -16,7 +16,7 @@
 </script>
 
 <div>
-  <div><h2>Ex04</h2></div>
+  <div><h1>Part01_Ex04</h1></div>
   <BtnComp {count} {handleClick} />
   <CountComp {count} {doubled} />
 </div>

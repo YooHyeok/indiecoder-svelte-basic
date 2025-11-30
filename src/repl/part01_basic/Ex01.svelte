@@ -6,7 +6,7 @@
 </script>
 
 <div>
-  <div><h2>Ex01</h2></div>
+  <div><h1>Part01_Ex01</h1></div>
   <button on:click={handleClick}>
     클릭수 {count}
   </button>

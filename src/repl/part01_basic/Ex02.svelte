@@ -18,7 +18,7 @@
 </script>
 
 <div>
-  <div><h2>Ex02</h2></div>
+  <div><h1>Part01_Ex02</h1></div>
   <button on:click={handleClick}>
     클릭수 {count}
     {count === 1 ? "time" : "times"}
