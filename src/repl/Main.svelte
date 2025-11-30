@@ -3,6 +3,7 @@
   import Ex02 from "./part01_basic/Ex02.svelte";
   import Ex03 from "./part01_basic/Ex03.svelte";
   import Ex04 from "./part01_basic/Ex04.svelte";
+  import Ex05 from "./part01_basic/Ex05.svelte";
 </script>
 
 <div>
@@ -11,4 +12,5 @@
   <Ex02 />
   <Ex03 />
   <Ex04 />
+  <Ex05 />
 </div>
